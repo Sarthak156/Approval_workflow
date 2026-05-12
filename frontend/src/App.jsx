@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://approval-workflow.onrender.com/api';
 const BACKEND_ORIGIN = import.meta.env.VITE_BACKEND_ORIGIN || 'https://approval-workflow.onrender.com';
 
 const emptyForm = {
