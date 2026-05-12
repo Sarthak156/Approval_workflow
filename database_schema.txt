@@ -1,0 +1,60 @@
+Database Design
+Users Table
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id VARCHAR(50) UNIQUE,
+    password VARCHAR(255),
+    full_name VARCHAR(100),
+    role ENUM('USER','LOWER','MIDDLE','HIGHER'),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+________________________________________
+Requests Table
+CREATE TABLE requests (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    request_id VARCHAR(50) UNIQUE,
+
+    document_name VARCHAR(255),
+    document_description TEXT,
+    request_message TEXT,
+
+    document_path VARCHAR(255),
+
+    submitted_by INT,
+
+    status ENUM(
+        'PENDING_LOWER',
+        'PENDING_MIDDLE',
+        'PENDING_HIGHER',
+        'APPROVED',
+        'REJECTED'
+    ),
+
+    lower_approved BOOLEAN DEFAULT FALSE,
+    middle_approved BOOLEAN DEFAULT FALSE,
+    higher_approved BOOLEAN DEFAULT FALSE,
+
+    rejection_reason TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (submitted_by) REFERENCES users(id)
+);
+________________________________________
+Approval Logs Table
+Tracks every action like a security camera for paperwork 📼
+CREATE TABLE approval_logs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+
+    request_id INT,
+    approved_by INT,
+
+    action ENUM('APPROVED','REJECTED','FORWARDED'),
+
+    comments TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (request_id) REFERENCES requests(id),
+    FOREIGN KEY (approved_by) REFERENCES users(id)
+);
